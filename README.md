@@ -1,4 +1,4 @@
-# stamax
+# Stamax Test Task
 
 ## Project setup
 

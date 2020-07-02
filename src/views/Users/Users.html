@@ -1,21 +1,32 @@
-<v-item-group>
+<div>
+  <router-view :key="$route.path"></router-view>
   <v-item-group>
-    <v-row no-gutters>
-      <v-col v-for="item in currentUsers" :key="item.id" sm="4">
-        <user-card :user="item" v-bind:key="item.id" />
-      </v-col>
-    </v-row>
+    <v-item-group>
+      <v-row no-gutters>
+        <v-col v-for="item in currentUsers" :key="item.id" sm="4">
+          <user-card :user="item" v-bind:key="item.id" />
+        </v-col>
+      </v-row>
+    </v-item-group>
+    <div v-if="totalPages">
+      <v-pagination v-model="page" :length="totalPages"></v-pagination>
+      <div class="text-right">
+        <user-dialog
+          :visible="createDialog"
+          @close="createDialog=false"
+          :retain-focus="false"
+          persistent
+        />
+        <v-btn
+          class="mx-2"
+          @click.stop="createDialog=true"
+          fab
+          dark
+          color="pink"
+        >
+          <v-icon dark>mdi-plus</v-icon>
+        </v-btn>
+      </div>
+    </div>
   </v-item-group>
-  <v-pagination v-model="page" :length="totalPages"></v-pagination>
-  <div class="text-right">
-    <user-dialog
-      :visible="createDialog"
-      @close="createDialog=false"
-      :retain-focus="false"
-      persistent
-    />
-    <v-btn class="mx-2" @click.stop="createDialog=true" fab dark color="pink">
-      <v-icon dark>mdi-plus</v-icon>
-    </v-btn>
-  </div>
-</v-item-group>
+</div>

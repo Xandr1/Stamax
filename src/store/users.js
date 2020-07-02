@@ -9,7 +9,10 @@ const mutations = {
   SET_USERS(state, users) {
     state.currentUsers = users;
   },
-  SET_USER(state, { userId, response }) {
+  SET_USER(state, user) {
+    state.currentUsers = [user];
+  },
+  UPD_USER(state, { userId, response }) {
     for (let i = 0; i < state.currentUsers.length; i++) {
       if (state.currentUsers[i].id === userId)
         state.currentUsers[i].first_name = response.data.name;
@@ -25,7 +28,7 @@ const mutations = {
     });
   },
   ADD_USER(state, newUser) {
-    state.currentUsers.push({
+    state.currentUsers.unshift({
       id: newUser.data.id,
       first_name: newUser.data.name,
     });
@@ -40,9 +43,20 @@ const actions = {
     axios
       .get("https://reqres.in/api/users?page=" + page)
       .then((response) => {
-        console.log(response);
         context.commit("SET_USERS", response.data.data);
         context.commit("SET_PAGES", response.data.total_pages);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.errored = true;
+      });
+  },
+  getSingleUser(context, id) {
+    axios
+      .get("https://reqres.in/api/users/" + id)
+      .then((response) => {
+        context.commit("SET_USER", response.data.data);
+        context.commit("SET_PAGES", null);
       })
       .catch((error) => {
         console.log(error);
@@ -68,7 +82,8 @@ const actions = {
       })
       .then(
         (response) => {
-          context.commit("SET_USER", { userId, response });
+          console.log(response);
+          context.commit("UPD_USER", { userId, response });
         },
         (error) => {
           console.log(error);

@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="256" min-width="212" height="268" outlined>
-    <v-img :src="user.avatar" height="150"></v-img>
+    <v-img :src="user.avatar" height="148"></v-img>
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1"
@@ -14,7 +14,9 @@
       <v-btn small outlined color="purple" @click.stop="editDialog = true"
         >Edit</v-btn
       >
-      <v-btn small outlined color="blue">Show</v-btn>
+      <v-btn v-if="user" small outlined color="blue" :to="/users/ + user.id"
+        >Show</v-btn
+      >
     </v-card-actions>
     <user-dialog
       :visible="editDialog"
@@ -28,7 +30,7 @@
 
 <script>
 import UserDialog from "../UserDialog/UserDialog";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "UserCard",
@@ -47,6 +49,7 @@ export default {
 
   methods: {
     ...mapActions("users", ["deleteUser", "saveUser"]),
+    ...mapGetters("users", ["currentUser"]),
     save(userId) {
       let userName = this.name;
       let userJob = this.job;

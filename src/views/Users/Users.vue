@@ -26,6 +26,14 @@ export default {
     page() {
       this.getUserlist(this.page);
     },
+    "$route.path": function userId() {
+      let id = +this.$route.params.id;
+      if (id) {
+        this.getSingleUser(id);
+      } else {
+        this.getUserlist(1);
+      }
+    },
   },
 
   computed: {
@@ -34,7 +42,7 @@ export default {
 
   methods: {
     ...mapMutations({ setSnackbar: "snackbar/setSnackbar" }),
-    ...mapActions("users", ["getUserlist"]),
+    ...mapActions("users", ["getUserlist", "getSingleUser"]),
   },
 };
 </script>

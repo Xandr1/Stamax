@@ -28,12 +28,6 @@
       </v-card>
       <router-view></router-view>
     </v-card>
-    <!-- <v-snackbar v-model="snackbar">
-      <v-text-field v-model="snackName" />
-      <v-btn color="red" text @click.native="snackbar = false">
-        Close
-      </v-btn>
-    </v-snackbar> -->
   </v-app>
 </template>
 <script>
